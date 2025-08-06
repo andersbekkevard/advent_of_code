@@ -10,7 +10,7 @@ pub fn solve1(path: String) {
         .collect();
     let permutations = create_permutations(matrix);
     debug(&permutations);
-    let mut count: usize = permutations
+    let count: usize = permutations
         .iter()
         .map(|s| count_both_ways(s, pattern))
         .sum();

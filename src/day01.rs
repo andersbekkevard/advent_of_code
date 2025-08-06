@@ -11,7 +11,7 @@ fn fill_vecs(path: &String, vec1: &mut Vec<u32>, vec2: &mut Vec<u32>) {
     let mut switch: bool = true;
 
     for number in contents.split_ascii_whitespace() {
-        let mut parsed: u32 = number.parse().expect("Parse error");
+        let parsed: u32 = number.parse().expect("Parse error");
         if switch {
             vec1.push(parsed);
         } else {
