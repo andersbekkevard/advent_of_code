@@ -40,12 +40,13 @@ pub fn solve1(path: &str) {
     let mut dir = Direction::North;
 
     loop {
-        let status: MoveCheck = check_move(&map, i, j, dir);
+        let mut status: MoveCheck = check_move(&map, i, j, dir);
         if status == MoveCheck::Finished {
             break;
         }
-        if status == MoveCheck::Blocked {
+        while status == MoveCheck::Blocked {
             dir = dir.rotate();
+            status = check_move(&map, i, j, dir);
         }
         assert!(check_move(&map, i, j, dir) != MoveCheck::Blocked);
         (i, j) = move_direction(&mut map, i, j, dir);
@@ -98,23 +99,25 @@ fn has_loop(
     let mut switch = false;
 
     loop {
-        let status_fast: MoveCheck = check_move(&map, i_fast, j_fast, dir_fast);
+        let mut status_fast: MoveCheck = check_move(&map, i_fast, j_fast, dir_fast);
 
         if status_fast == MoveCheck::Finished {
             break;
         }
-        if status_fast == MoveCheck::Blocked {
+        while status_fast == MoveCheck::Blocked {
             dir_fast = dir_fast.rotate();
+            status_fast = check_move(&map, i_fast, j_fast, dir_fast);
         }
         (i_fast, j_fast) = move_direction(&mut map, i_fast, j_fast, dir_fast);
 
         if switch {
-            let status_slow: MoveCheck = check_move(&map, i_slow, j_slow, dir_slow);
+            let mut status_slow: MoveCheck = check_move(&map, i_slow, j_slow, dir_slow);
             if status_slow == MoveCheck::Finished {
                 break;
             }
-            if status_slow == MoveCheck::Blocked {
+            while status_slow == MoveCheck::Blocked {
                 dir_slow = dir_slow.rotate();
+                status_slow = check_move(&map, i_slow, j_slow, dir_slow);
             }
             (i_slow, j_slow) = move_direction(&mut map, i_slow, j_slow, dir_slow);
         }
