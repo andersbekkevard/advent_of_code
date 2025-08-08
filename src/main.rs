@@ -7,7 +7,7 @@ mod day06;
 mod day07;
 
 fn main() {
-    let path = "debug_input.txt";
+    let path = "input.txt";
 
     //day01::solve1(&path);
     //day01::solve2(&path);
