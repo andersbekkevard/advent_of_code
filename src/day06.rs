@@ -66,10 +66,15 @@ pub fn solve2(path: &str) {
         .split_whitespace()
         .map(|s| s.chars().collect())
         .collect();
+    let (mut start_row, mut start_col) = find_guard(&map).unwrap();
     let dir = Direction::North;
     let mut count = 0;
     for i in 0..map.len() {
         for j in 0..map[0].len() {
+            if start_row == i && start_col == j {
+                continue;
+            }
+
             if has_loop(&map, i, j, dir) {
                 count += 1;
             }
@@ -78,7 +83,13 @@ pub fn solve2(path: &str) {
     dbg!(count);
 }
 
-fn has_loop(map_to_check: &Vec<Vec<char>>, i: usize, j: usize, dir: Direction) -> bool {
+fn create_vec(map_to_check: &[Vec<char>], i: usize, j: usize) -> Vec<Vec<char>> {
+    let mut vec = map_to_check.clone();
+    vec[i][j] = BLOCK;
+    vec
+}
+
+fn has_loop(map_to_check: &[Vec<char>], i: usize, j: usize, dir: Direction) -> bool {
     let mut map = map_to_check.clone();
     let mut i_fast = i;
     let mut j_fast = j;
@@ -89,7 +100,7 @@ fn has_loop(map_to_check: &Vec<Vec<char>>, i: usize, j: usize, dir: Direction) -
     let mut switch = false;
 
     loop {
-        let status_fast: MoveCheck = check_move(&map, i, j, dir);
+        let status_fast: MoveCheck = check_move(map.as_slice(), i, j, dir);
 
         if status_fast == MoveCheck::Finished {
             break;
