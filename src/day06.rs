@@ -3,14 +3,6 @@ const X: char = 'X';
 const GUARD: char = '^';
 const BLOCK: char = '#';
 const ADDED_BLOCK: char = 'O';
-const BIG: usize = 1_000_000;
-/*
- *Current status:
- *The problem lies in the incrementation of usize, who get parsed to i32 and manually cast
- *back as BIG. If you fix this, the code should work (i think). Sexy rabbit/turtle algo
- * In addition, we need to have a shared reference for modification between rabbit/turtle
- * Right now they both check the original, unmodified vec
- */
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum Direction {
@@ -135,34 +127,6 @@ fn has_loop(
     false
 }
 
-fn has_loop_new(
-    map_to_check: &Vec<Vec<char>>,
-    block_row: usize,
-    block_col: usize,
-    start_row: usize,
-    start_col: usize,
-    dir: Direction,
-) -> bool {
-    let mut map = create_vec(map_to_check, block_row, block_col);
-    let (mut i, mut j) = (start_row, start_col);
-    let mut dir = dir;
-
-    loop {
-        let status: MoveCheck = check_move(&map, i, j, dir);
-
-        if status == MoveCheck::Finished {
-            return false;
-        }
-        if check_if_been(&map, i, j, dir) {
-            return true;
-        }
-        if status == MoveCheck::Blocked {
-            dir = dir.rotate();
-        }
-        (i, j) = move_direction(&mut map, i, j, dir);
-    }
-}
-
 fn check_move(matrix: &Vec<Vec<char>>, i: usize, j: usize, dir: Direction) -> MoveCheck {
     match increment(i, j, dir) {
         Some((row_index, col_index)) => {
@@ -176,18 +140,6 @@ fn check_move(matrix: &Vec<Vec<char>>, i: usize, j: usize, dir: Direction) -> Mo
             MoveCheck::Good
         }
         None => MoveCheck::Finished,
-    }
-}
-
-fn check_if_been(matrix: &Vec<Vec<char>>, i: usize, j: usize, dir: Direction) -> bool {
-    match increment(i, j, dir) {
-        Some((row_index, col_index)) => {
-            if matrix[row_index][col_index] == X {
-                return true;
-            }
-            false
-        }
-        None => false,
     }
 }
 
