@@ -1,6 +1,9 @@
-/target
+target/
+bin/
 Cargo.lock
 Cargo.toml
 debug_input.txt
 input.txt
+test_input.txt
+inputs/
 .DS_Store

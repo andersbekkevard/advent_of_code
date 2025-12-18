@@ -5,6 +5,8 @@ mod day04;
 mod day05;
 mod day06;
 mod day07;
+mod day08;
+mod day09;
 
 fn main() {
     let path = "input.txt";
@@ -19,7 +21,12 @@ fn main() {
     //day05::solve1(path);
     //day05::solve2(path);
     //day06::solve1(path);
-    // day06::solve2(path);
-    day07::solve1(path);
-    // day07::solve2(path);
+    //day06::solve2(path);
+    //day07::solve1(path);
+    //day07::solve2(path);
+    // day08::solve1(path);
+    //day08::solve2(path);
+    //day09::solve1(path);
+    //day09::solve2(path);
+    println!("Hello, world!");
 }

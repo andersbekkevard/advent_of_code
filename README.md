@@ -1,1 +1,1 @@
-Advent of code 2024 solved in rust
+Using advent of code to learn new languages
